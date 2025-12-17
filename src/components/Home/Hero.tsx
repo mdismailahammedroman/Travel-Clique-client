@@ -13,7 +13,7 @@ export default function Hero() {
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
           <Button size="lg">Find Travel Buddies</Button>
-          <Button size="lg" variant="outline" className="text-white border-white">
+          <Button size="lg" variant="outline" className="text-black hover:text-white hover:bg-gray-600 border-white">
             Explore Destinations
           </Button>
         </div>
