@@ -33,7 +33,7 @@ export default function Navbar() {
               <Button
                 variant="default"
                 size="sm"
-                className="bg-white/40 backdrop-blur-sm text-gray-900 hover:bg-white/50 border border-white/30"
+                className="bg-white/40 backdrop-blur-sm text-gray-900 hover:bg-white/50 border border-white/10"
               >
                 <Link href="/register">Register</Link>
               </Button>
