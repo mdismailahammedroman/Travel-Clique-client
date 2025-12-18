@@ -12,7 +12,8 @@ export default function Footer() {
         <div className="flex-1 min-w-56">
           <h2 className="text-2xl font-bold text-gray-700">Travel-Clique</h2>
           <p className="text-gray-700 text-sm sm:text-base mt-2">
-            Connecting travelers with buddies around the world. Explore destinations, create plans, and find your travel companion!
+            Connecting travelers with buddies around the world. Explore
+            destinations, create plans, and find your travel companion!
           </p>
         </div>
 
@@ -43,22 +44,27 @@ export default function Footer() {
           <h3 className="font-semibold text-gray-900 mb-4">Follow Us</h3>
           <div className="flex gap-4 flex-wrap">
             <Link
-              href="#"
+              href="https://www.facebook.com/mdismailahammedroman/"
+              aria-label="Visit us on Facebook"
               className="hover:text-blue-600 transition-colors duration-300"
             >
-              <Facebook size={24} />
+              <Facebook size={24} aria-hidden="true" />
             </Link>
+
             <Link
-              href="#"
+              href="https://x.com/ismailahammedr3"
+              aria-label="Visit us on Twitter"
               className="hover:text-blue-600 transition-colors duration-300"
             >
-              <Twitter size={24} />
+              <Twitter size={24} aria-hidden="true" />
             </Link>
+
             <Link
-              href="#"
+              href="https://www.instagram.com/"
+              aria-label="Visit us on Instagram"
               className="hover:text-blue-600 transition-colors duration-300"
             >
-              <Instagram size={24} />
+              <Instagram size={24} aria-hidden="true" />
             </Link>
           </div>
         </div>

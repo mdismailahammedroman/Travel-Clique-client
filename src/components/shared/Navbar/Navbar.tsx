@@ -10,7 +10,7 @@ export default function Navbar() {
   const [role, setRole] = useState<UserRole>("guest");
 
   return (
-    <header className="fixed top-0 w-full z-50 backdrop-blur-lg bg-white/30 border-b border-white/20 shadow-md">
+    <header className="fixed top-0 w-full z-50 backdrop-blur-sm bg-white/30 border-b border-white/20 shadow-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="text-2xl font-bold text-gray-900">
@@ -21,16 +21,23 @@ export default function Navbar() {
         <nav className="hidden md:flex items-center gap-6 font-medium text-gray-800">
           {role === "guest" && (
             <>
-              <Link href="/travelers" className="hover:text-gray-900 transition">
+              <Link
+                href="/travelers"
+                className="hover:text-gray-900 transition"
+              >
                 Explore Travelers
               </Link>
-              <Link href="/find-buddy" className="hover:text-gray-900 transition">
+              <Link
+                href="/find-buddy"
+                className="hover:text-gray-900 transition"
+              >
                 Find Travel Buddy
               </Link>
               <Link href="/login" className="hover:text-gray-900 transition">
                 Login
               </Link>
               <Button
+                asChild
                 variant="default"
                 size="sm"
                 className="bg-white/40 backdrop-blur-sm text-gray-900 hover:bg-white/50 border border-white/10"
@@ -42,7 +49,10 @@ export default function Navbar() {
 
           {role === "user" && (
             <>
-              <Link href="/travelers" className="hover:text-gray-900 transition">
+              <Link
+                href="/travelers"
+                className="hover:text-gray-900 transition"
+              >
                 Explore Travelers
               </Link>
               <Link href="/plans" className="hover:text-gray-900 transition">
@@ -66,10 +76,16 @@ export default function Navbar() {
               <Link href="/admin" className="hover:text-gray-900 transition">
                 Admin Dashboard
               </Link>
-              <Link href="/admin/users" className="hover:text-gray-900 transition">
+              <Link
+                href="/admin/users"
+                className="hover:text-gray-900 transition"
+              >
                 Manage Users
               </Link>
-              <Link href="/admin/plans" className="hover:text-gray-900 transition">
+              <Link
+                href="/admin/plans"
+                className="hover:text-gray-900 transition"
+              >
                 Manage Travel Plans
               </Link>
               <Link href="/profile" className="hover:text-gray-900 transition">
@@ -88,11 +104,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <div className="md:hidden">
-          <Button
-            variant="default"
-            size="sm"
-            className="bg-white/40 backdrop-blur-sm text-gray-900 hover:bg-white/50 border border-white/30"
-          >
+          <Button size="sm" className="min-h-11 min-w-11 px-4">
             Menu
           </Button>
         </div>
