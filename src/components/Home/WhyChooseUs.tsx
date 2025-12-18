@@ -19,7 +19,7 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section className="py-28 bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50">
+    <section className="py-28 bg-linear-to-br from-indigo-50 via-violet-50 to-purple-50">
       {/* Title */}
       <h2 className="text-center text-4xl font-bold mb-16 text-gray-900">
         Why Choose Travel-Clique?
@@ -45,10 +45,10 @@ export default function WhyChooseUs() {
             style={{ animationDelay: `${i * 120}ms` }}
           >
             {/* Animated Glow Ring */}
-            <div className="absolute -inset-0.5 rounded-3xl bg-gradient-to-r from-indigo-400/30 via-violet-400/30 to-purple-400/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute -inset-0.5 rounded-3xl bg-linear-to-r from-indigo-400/30 via-violet-400/30 to-purple-400/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             {/* Icon Bubble */}
-            <div className="relative z-10 mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 text-white font-bold text-lg shadow-md transition-transform duration-300 group-hover:scale-110">
+            <div className="relative z-10 mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-linear-to-br from-indigo-500 to-violet-500 text-white font-bold text-lg shadow-md transition-transform duration-300 group-hover:scale-110">
               {i + 1}
             </div>
 
