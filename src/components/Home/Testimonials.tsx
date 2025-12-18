@@ -26,19 +26,25 @@ export default function Testimonials() {
   useEffect(() => {
     const interval = setInterval(() => {
       setDirection(1);
-      setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+      setCurrentIndex((prev) =>
+        prev === testimonials.length - 1 ? 0 : prev + 1
+      );
     }, 5000); // 5000ms = 5s
     return () => clearInterval(interval);
   }, []);
 
   const handlePrev = () => {
     setDirection(-1);
-    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+    setCurrentIndex((prev) =>
+      prev === 0 ? testimonials.length - 1 : prev - 1
+    );
   };
 
   const handleNext = () => {
     setDirection(1);
-    setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) =>
+      prev === testimonials.length - 1 ? 0 : prev + 1
+    );
   };
 
   // Slide animation variants
@@ -61,7 +67,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-slate-50 to-gray-100">
+    <section className="py-20 bg-linear-to-b from-slate-50 to-gray-100">
       <h2 className="text-center text-4xl font-bold mb-12 text-gray-900">
         Traveler Stories
       </h2>
@@ -83,7 +89,7 @@ export default function Testimonials() {
               “{testimonials[currentIndex].text}”
             </p>
 
-            <div className="my-6 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+            <div className="my-6 h-px bg-linear-to-r from-transparent via-gray-300 to-transparent" />
 
             <div className="flex items-center gap-4 justify-center">
               <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-gray-500 text-white flex items-center justify-center font-semibold text-lg">
