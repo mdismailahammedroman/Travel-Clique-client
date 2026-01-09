@@ -1,8 +1,6 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Provider as ReduxProvider } from "react-redux";
-import { store } from "@/lib/redux/store";
+import ReduxProvider from "@/components/redux/ReduxProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,10 +12,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Travel-Clique",
-  description: "Connecting travelers with travel buddies worldwide",
+export const metadata = {
+  title: "Travel-Clique | Find Your Travel Buddy",
+  description:
+    "Connect with travel buddies, explore destinations, and share adventures worldwide.",
 };
+// In your `RootLayout` file, it should look like this:
 
 export default function RootLayout({
   children,
@@ -26,11 +26,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {/* Wrap all pages in CommonLayout */}
-        <ReduxProvider store={store}>{children}</ReduxProvider>
+      <body>
+        {/* Wrap the layout with ReduxProvider */}
+        <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>
   );
