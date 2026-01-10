@@ -1,12 +1,10 @@
 "use client";
-
 import { useActionState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { registerAction } from "@/services/registerAction";
+import { registerAction } from "@/services/auth/registerAction";
 
 export default function RegisterForm() {
   const [state, formAction, isPending] = useActionState(registerAction, null);
@@ -55,6 +53,7 @@ export default function RegisterForm() {
           />
         </div>
 
+        {/* Show the error message if registration fails */}
         {state?.error && (
           <p className="text-red-400 text-sm text-center">{state.error}</p>
         )}
