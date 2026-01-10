@@ -1,6 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import ReduxProvider from "@/components/redux/ReduxProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         {/* Wrap the layout with ReduxProvider */}
-        <ReduxProvider>{children}</ReduxProvider>
+        <main>{children}</main>
       </body>
     </html>
   );

@@ -15,7 +15,7 @@ const DashboardNavbar = async () => {
     //   navItems={navItems}
     //   dashboardHome={dashboardHome}
     // />
-    <h1>hello sir</h1>
+    <h1 className="bg-amber-600">hello sir</h1>
   );
 };
 

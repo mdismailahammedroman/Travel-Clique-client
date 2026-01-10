@@ -1,5 +1,4 @@
 "use client";
-
 import { useActionState } from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { loginAction } from "@/components/actions/loginAction";
+import { loginAction } from "@/services/loginAction";
 
 export default function Login() {
   const [state, formAction, isPending] = useActionState(loginAction, null);

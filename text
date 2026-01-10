@@ -1,0 +1,135 @@
+travel-buddy/
+├── app/
+│   ├── (public)/
+│   │   ├── page.tsx                     # Home / Landing page
+│   │   ├── explore/
+│   │   │   └── page.tsx                 # Search & Match page
+│   │   └── travelers/
+│   │       └── page.tsx                 # Explore Travelers
+│   │
+│   ├── (auth)/
+│   │   ├── login/
+│   │   │   └── page.tsx                 # Sign In
+│   │   ├── register/
+│   │   │   └── page.tsx                 # Sign Up
+│   │   ├── forgot-password/
+│   │   │   └── page.tsx
+│   │   └── reset-password/
+│   │       └── page.tsx
+│   │
+│   ├── dashboard/
+│   │   ├── layout.tsx                   # Dashboard common layout
+│   │   ├── page.tsx                     # Role-based redirect
+│   │
+│   │   ├── user/
+│   │   │   ├── page.tsx                 # User Dashboard Overview
+│   │   │   ├── profile/
+│   │   │   │   └── page.tsx
+│   │   │   ├── travel-plans/
+│   │   │   │   ├── page.tsx
+│   │   │   │   ├── add/
+│   │   │   │   │   └── page.tsx
+│   │   │   │   └── [id]/
+│   │   │   │       └── page.tsx
+│   │   │   ├── travel-history/
+│   │   │   │   └── page.tsx
+│   │   │   ├── payment-history/
+│   │   │   │   └── page.tsx
+│   │   │   └── matches/
+│   │   │       └── page.tsx
+│   │
+│   │   ├── admin/
+│   │   │   ├── page.tsx                 # Admin Dashboard Overview
+│   │   │   ├── profile/
+│   │   │   │   └── page.tsx
+│   │   │   ├── users/
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── [id]/
+│   │   │   │       └── page.tsx
+│   │   │   ├── travel-plans/
+│   │   │   │   └── page.tsx
+│   │   │   ├── payments/
+│   │   │   │   └── page.tsx
+│   │   │   └── reports/
+│   │   │       └── page.tsx
+│   │
+│   ├── profile/
+│   │   └── [id]/
+│   │       └── page.tsx                 # Public profile page
+│   │
+│   ├── api/
+│   │   ├── auth/
+│   │   │   ├── login/route.ts
+│   │   │   ├── register/route.ts
+│   │   │   ├── logout/route.ts
+│   │   │   └── reset-password/route.ts
+│   │   ├── users/route.ts
+│   │   ├── travel-plans/route.ts
+│   │   ├── matches/route.ts
+│   │   └── payments/route.ts
+│   │
+│   ├── layout.tsx                       # Root layout
+│   ├── globals.css
+│   ├── loading.tsx
+│   ├── error.tsx
+│   └── not-found.tsx
+│
+├── components/
+│   ├── common/
+│   │   ├── Navbar.tsx
+│   │   ├── Footer.tsx
+│   │   └── ProtectedRoute.tsx
+│   │
+│   ├── auth/
+│   │   ├── LoginForm.tsx
+│   │   ├── RegisterForm.tsx
+│   │   └── ForgotPasswordForm.tsx
+│   │
+│   ├── dashboard/
+│   │   ├── Sidebar.tsx
+│   │   ├── StatCard.tsx
+│   │   └── DashboardHeader.tsx
+│   │
+│   ├── travel/
+│   │   ├── TravelCard.tsx
+│   │   ├── TravelForm.tsx
+│   │   └── TravelDetails.tsx
+│   │
+│   └── profile/
+│       ├── ProfileCard.tsx
+│       └── EditProfileForm.tsx
+│
+├── hooks/
+│   ├── useAuth.ts
+│   ├── useUser.ts
+│   └── useMatch.ts
+│
+├── lib/
+│   ├── auth.ts                         # Auth helpers
+│   ├── permissions.ts                 # Role-based access
+│   ├── db.ts                          # DB connection
+│   └── utils.ts
+│
+├── services/
+│   ├── auth.service.ts
+│   ├── user.service.ts
+│   ├── travel.service.ts
+│   ├── match.service.ts
+│   └── payment.service.ts
+│
+├── types/
+│   ├── user.ts
+│   ├── travel.ts
+│   └── payment.ts
+│
+├── public/
+│   ├── images/
+│   ├── icons/
+│   └── logos/
+│
+├── middleware.ts                      # Route protection
+├── .env.local
+├── next.config.js
+├── tsconfig.json
+├── package.json
+└── README.md

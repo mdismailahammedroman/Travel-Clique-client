@@ -18,7 +18,7 @@ const DashboardSidebar = async () => {
     //   dashboardHome={dashboardHome}
     // />
 
-    <h1>hello DashboardSidebar</h1>
+    <h1 className="bg-gray-500">hello DashboardSidebar</h1>
   );
 };
 
