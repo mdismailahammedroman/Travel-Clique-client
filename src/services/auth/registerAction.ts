@@ -1,50 +1,63 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-// Define the return type of the function (you can customize this according to your needs)
-interface RegisterResponse {
+import { redirect } from "next/navigation";
+
+export interface RegisterResponse {
   success?: boolean;
   error?: string;
-  data?: any; // Use a more specific type for data if necessary
+  data?: any;
 }
 
-// Use async function declaration correctly
 export async function registerAction(
-  currentState: any,
+  _currentState: RegisterResponse | null,
   formData: FormData
 ): Promise<RegisterResponse> {
   try {
-    // Prepare the register data from formData
     const registerData = {
-      name: formData.get("name") as string,
-      email: formData.get("email") as string,
-      password: formData.get("password") as string,
+      name: String(formData.get("name") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      password: String(formData.get("password") ?? ""),
     };
 
-    // Send the request to your backend
-    const res = await fetch("http://localhost:5000/api/v1/user/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", // Set the content type to JSON
-      },
-      body: JSON.stringify(registerData), // Send JSON instead of FormData
-    });
-
-    // Check if response status is OK
-    if (!res.ok) {
-      const errorResult = await res.json();
-      console.error("Error response from server:", errorResult); // Log the error details
-      return { error: errorResult.error || "Registration failed" }; // Return server error message
+    if (!registerData.name || !registerData.email || !registerData.password) {
+      return { error: "All fields are required" };
     }
 
-    // Parse the response
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/register`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(registerData),
+        cache: "no-store",
+      }
+    );
+
+    if (!res.ok) {
+      let message = "Registration failed";
+      try {
+        const err = await res.json();
+        message = err.error || message;
+      } catch {}
+      return { error: message };
+    }
+
     const result = await res.json();
 
-    // Handle the response
-    console.log("Registration successful", result);
+    // ✅ Ignore NEXT_REDIRECT exception in dev
+    try {
+      redirect("/login");
+    } catch (err: any) {
+      if (!err?.digest?.startsWith("NEXT_REDIRECT")) {
+        console.error("Unexpected redirect error:", err);
+        return { error: "Something went wrong. Try again." };
+      }
+    }
+
     return { success: true, data: result };
   } catch (error) {
-    console.error("Error during registration:", error); // Log the error
-    return { error: "Registration failed" }; // Return a generic error
+    console.error("Register error:", error);
+    return { error: "Something went wrong. Try again." };
   }
 }
