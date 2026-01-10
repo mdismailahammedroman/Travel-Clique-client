@@ -1,52 +1,44 @@
-"use server";
-
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
-
-export async function loginAction(
-  _prevState: { error?: string } | null,
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export const loginAction = async (
+  _currentState: any,
   formData: FormData
-) {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-
-  if (!email || !password) {
-    return { error: "Email and password are required" };
-  }
-
+): Promise<any> => {
   try {
-    const res = await fetch("http://localhost:5000/api/v1/auth/login", {
+    const loginData = {
+      email: String(formData.get("email") ?? ""),
+      password: String(formData.get("password") ?? ""),
+    };
+
+    if (!loginData.email || !loginData.password) {
+      return { error: "All fields are required" };
+    }
+    console.log(loginData);
+
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/login`;
+    console.log("Login URL:", url);
+
+    const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-      credentials: "include", // important to send cookies
+      body: JSON.stringify(loginData),
+      credentials: "include",
     });
 
-    const data = await res.json();
-
     if (!res.ok) {
-      return { error: data.message || "Login failed" };
+      let message = "Login failed";
+      try {
+        const err = await res.json();
+        message = err.error || err.message || message;
+      } catch {}
+      return { error: message };
     }
 
-    // Set cookie if accessToken is present
-    if (data.accessToken) {
-      const cookieStore = await cookies();
-      cookieStore.set("accessToken", data.accessToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        path: "/",
-        maxAge: 60 * 60 * 24 * 7, // 7 days
-      });
-    }
+    const result = await res.json();
+    console.log("Login success:", result);
 
-    // ✅ Login successful → redirect (will be thrown as error below)
-  } catch (err) {
-    if ((err as Error).message === "NEXT_REDIRECT") {
-      throw err;
-    }
-    console.error("Login Error:", err);
-    return { error: "Network error" };
+    return { success: true, data: result.data };
+  } catch (error: any) {
+    console.error("Login error:", error);
+    return { error: "Something went wrong. Try again." };
   }
-
-  redirect("/");
-}
+};

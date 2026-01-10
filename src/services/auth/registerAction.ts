@@ -24,12 +24,15 @@ export async function registerAction(
       return { error: "All fields are required" };
     }
 
-    const res = await fetch(`${process.env.API_URL}/users/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(registerData),
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/register`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(registerData),
+        cache: "no-store",
+      }
+    );
 
     if (!res.ok) {
       let message = "Registration failed";
@@ -41,7 +44,6 @@ export async function registerAction(
     }
 
     const result = await res.json();
-    console.log("Registration success:", result);
 
     // ✅ Ignore NEXT_REDIRECT exception in dev
     try {
