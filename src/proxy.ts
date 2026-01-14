@@ -10,53 +10,69 @@ interface UserInterface {
   iat: number;
 }
 
-const roleBaseRouter = {
+// Routes allowed per role
+const roleBaseRouter: Record<UserInterface["role"], string[]> = {
   SUPER_ADMIN: ["/"], // access everything
   ADMIN: ["/admin", "/dashboard/*"],
   MODERATOR: ["/moderator", "/dashboard/*"],
   USER: ["/dashboard", "/profile/*"],
 };
 
+// Public routes (no auth required)
 const authRoutes = [
+  "/",
   "/login",
   "/refresh-token",
-
+  "/register",
   "/forgot-password",
   "/reset-password",
   "/logout",
 ];
 
 export default async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
-  const { pathname } = request.nextUrl;
+
+  // ✅ Skip middleware for static files and assets
+  if (
+    pathname.startsWith("/_next/") ||
+    pathname.startsWith("/favicon.ico") ||
+    pathname.startsWith("/sitemap.xml") ||
+    pathname.startsWith("/robots.txt") ||
+    pathname.startsWith("/.well-known/") ||
+    pathname.match(/\.(png|jpg|jpeg|gif|svg|css|js)$/)
+  ) {
+    return NextResponse.next();
+  }
+
   let user: UserInterface | null = null;
 
-  // If the route is public, skip checks
+  // ✅ Public routes
   if (authRoutes.includes(pathname)) {
     return NextResponse.next();
   }
 
-  // If no tokens, redirect to login
+  // 1️⃣ No tokens → redirect to login
   if (!accessToken && !refreshToken) {
     return NextResponse.redirect(
       new URL(`/login?redirect=${encodeURIComponent(pathname)}`, request.url)
     );
   }
 
-  // Try to decode access token
+  // 2️⃣ Decode access token
   if (accessToken) {
     try {
-      user = jwtDecode(accessToken);
-    } catch (error) {
-      console.log("error decoding access token", error);
+      user = jwtDecode<UserInterface>(accessToken);
+    } catch (err) {
+      console.log("Error decoding access token:", err);
     }
   }
 
-  // If access token invalid but refresh token exists
+  // 3️⃣ Refresh token if access token invalid
   if (!user && refreshToken) {
     try {
-      const refersRes = await fetch(
+      const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
         {
           method: "POST",
@@ -65,9 +81,17 @@ export default async function proxy(request: NextRequest) {
         }
       );
 
-      if (refersRes.ok) {
-        const data = await refersRes.json();
-        user = jwtDecode(data.accessToken);
+      if (res.ok) {
+        const data = await res.json();
+        user = jwtDecode<UserInterface>(data.accessToken);
+
+        // Set new access token cookie
+        const response = NextResponse.next();
+        response.cookies.set("accessToken", data.accessToken, {
+          httpOnly: true,
+          path: "/",
+        });
+        return response;
       } else {
         const response = NextResponse.redirect(
           new URL(`/login?redirect=${pathname}`, request.url)
@@ -77,7 +101,7 @@ export default async function proxy(request: NextRequest) {
         return response;
       }
     } catch (err) {
-      console.log("error refreshing token:", err);
+      console.log("Error refreshing token:", err);
       const response = NextResponse.redirect(
         new URL(`/login?redirect=${pathname}`, request.url)
       );
@@ -87,31 +111,41 @@ export default async function proxy(request: NextRequest) {
     }
   }
 
+  // 4️⃣ Role-based route check
   if (user) {
-    const allowedRouters = user ? roleBaseRouter[user.role] : [];
+    const allowedRoutes = roleBaseRouter[user.role] || [];
 
-    if (allowedRouters && allowedRouters.some((r) => pathname.startsWith(r))) {
+    const isAllowed =
+      pathname === "/" || // allow home page for all logged-in users
+      allowedRoutes.some((route) => {
+        if (route.endsWith("/*")) {
+          return pathname.startsWith(route.replace("/*", ""));
+        }
+        return pathname === route;
+      });
+
+    if (isAllowed) {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(new URL("/unauthorized", request.url));
     }
   }
-  if (authRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-  // All good, continue
-  return NextResponse.next();
+
+  // 5️⃣ Fallback → redirect to login
+  return NextResponse.redirect(
+    new URL(`/login?redirect=${encodeURIComponent(pathname)}`, request.url)
+  );
 }
 
+// ✅ Middleware matcher — no capturing groups
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     * Match all routes except:
+     * - API routes
+     * - Next.js internal static files
+     * - Images, CSS, JS, favicon, sitemap, robots.txt, .well-known
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.well-known).*)",
+    "/:path*", // Match everything, exclusions handled in middleware
   ],
 };
