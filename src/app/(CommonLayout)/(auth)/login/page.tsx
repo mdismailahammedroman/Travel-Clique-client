@@ -16,7 +16,7 @@ const loginPage = () => {
         <div className="absolute inset-0 bg-black/30"></div>
         <Card className="relative w-full max-w-md shadow-lg border border-white/30 backdrop-blur-md z-10">
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl text-cyan-600">Login</CardTitle>
+            <CardTitle className="text-3xl text-cyan-700">Login</CardTitle>
           </CardHeader>
 
           <CardContent>
