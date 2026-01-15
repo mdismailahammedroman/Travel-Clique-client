@@ -53,9 +53,7 @@ export const isRouteMatches = (
 };
 
 // Identify route owner by role
-export const getRouteOwner = (
-  pathname: string
-): UserRole | "COMMON" | null => {
+export const getRouteOwner = (pathname: string): UserRole | "COMMON" | null => {
   if (isRouteMatches(pathname, superAdminProtectedRoutes)) return "SUPER_ADMIN";
   if (isRouteMatches(pathname, adminProtectedRoutes)) return "ADMIN";
   if (isRouteMatches(pathname, moderatorProtectedRoutes)) return "MODERATOR";
@@ -68,7 +66,7 @@ export const getRouteOwner = (
 export const getDefaultDashboardRoute = (role: UserRole): string => {
   switch (role) {
     case "SUPER_ADMIN":
-      return "/super-admin/dashboard";
+      return "/admin/dashboard";
     case "ADMIN":
       return "/admin/dashboard";
     case "MODERATOR":

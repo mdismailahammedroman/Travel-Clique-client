@@ -15,7 +15,7 @@ const roleBaseRouter: Record<UserInterface["role"], string[]> = {
   SUPER_ADMIN: ["/"], // access everything
   ADMIN: ["/admin", "/dashboard/*"],
   MODERATOR: ["/moderator", "/dashboard/*"],
-  USER: ["/dashboard", "/profile/*"],
+  USER: ["/dashboard", "/profile/*", "/my-travel-plan", "/travel-plan"],
 };
 
 // Public routes (no auth required)
@@ -34,7 +34,7 @@ export default async function proxy(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
 
-  // ✅ Skip middleware for static files and assets
+  // Skip static files and assets
   if (
     pathname.startsWith("/_next/") ||
     pathname.startsWith("/favicon.ico") ||
@@ -48,28 +48,29 @@ export default async function proxy(request: NextRequest) {
 
   let user: UserInterface | null = null;
 
-  // ✅ Public routes
+  // Public routes (no auth required)
   if (authRoutes.includes(pathname)) {
     return NextResponse.next();
   }
 
-  // 1️⃣ No tokens → redirect to login
+  // No tokens → redirect to login
   if (!accessToken && !refreshToken) {
     return NextResponse.redirect(
       new URL(`/login?redirect=${encodeURIComponent(pathname)}`, request.url)
     );
   }
 
-  // 2️⃣ Decode access token
+  // Decode access token
   if (accessToken) {
     try {
       user = jwtDecode<UserInterface>(accessToken);
+      console.log("Decoded User:", user); // Debugging log
     } catch (err) {
       console.log("Error decoding access token:", err);
     }
   }
 
-  // 3️⃣ Refresh token if access token invalid
+  // Refresh token if access token is invalid
   if (!user && refreshToken) {
     try {
       const res = await fetch(
@@ -84,8 +85,6 @@ export default async function proxy(request: NextRequest) {
       if (res.ok) {
         const data = await res.json();
         user = jwtDecode<UserInterface>(data.accessToken);
-
-        // Set new access token cookie
         const response = NextResponse.next();
         response.cookies.set("accessToken", data.accessToken, {
           httpOnly: true,
@@ -111,18 +110,16 @@ export default async function proxy(request: NextRequest) {
     }
   }
 
-  // 4️⃣ Role-based route check
+  // Role-based route check
   if (user) {
     const allowedRoutes = roleBaseRouter[user.role] || [];
-
-    const isAllowed =
-      pathname === "/" || // allow home page for all logged-in users
-      allowedRoutes.some((route) => {
-        if (route.endsWith("/*")) {
-          return pathname.startsWith(route.replace("/*", ""));
-        }
-        return pathname === route;
-      });
+    console.log("Allowed Routes for Role:", allowedRoutes); // Debug log
+    const isAllowed = allowedRoutes.some((route) => {
+      if (route.endsWith("/*")) {
+        return pathname.startsWith(route.replace("/*", ""));
+      }
+      return pathname === route;
+    });
 
     if (isAllowed) {
       return NextResponse.next();
@@ -131,7 +128,7 @@ export default async function proxy(request: NextRequest) {
     }
   }
 
-  // 5️⃣ Fallback → redirect to login
+  // Fallback → redirect to login
   return NextResponse.redirect(
     new URL(`/login?redirect=${encodeURIComponent(pathname)}`, request.url)
   );
