@@ -33,6 +33,12 @@ export default function Navbar() {
               >
                 Find Travel Buddy
               </Link>
+              <Link
+                href="/travel-plan"
+                className="hover:text-gray-900 transition"
+              >
+                Travel Plans{" "}
+              </Link>
               <Link href="/login" className="hover:text-gray-900 transition">
                 Login
               </Link>

@@ -1,44 +1,38 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export const loginAction = async (
-  _currentState: any,
-  formData: FormData
-): Promise<any> => {
+export const loginAction = async (_: any, formData: FormData) => {
   try {
-    const loginData = {
-      email: String(formData.get("email") ?? ""),
-      password: String(formData.get("password") ?? ""),
-    };
+    const email = String(formData.get("email") ?? "");
+    const password = String(formData.get("password") ?? "");
 
-    if (!loginData.email || !loginData.password) {
+    // get redirect path from form
+    const rawRedirect = String(formData.get("redirect") ?? "/dashboard");
+
+    // ✅ prevent open redirect attacks
+    const redirect =
+      rawRedirect.startsWith("/") && !rawRedirect.startsWith("//")
+        ? rawRedirect
+        : "/dashboard";
+
+    if (!email || !password) {
       return { error: "All fields are required" };
     }
-    console.log(loginData);
 
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/login`;
-    console.log("Login URL:", url);
-
-    const res = await fetch(url, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(loginData),
+      body: JSON.stringify({ email, password }),
       credentials: "include",
     });
 
     if (!res.ok) {
-      let message = "Login failed";
-      try {
-        const err = await res.json();
-        message = err.error || err.message || message;
-      } catch {}
-      return { error: message };
+      const err = await res.json().catch(() => ({}));
+      return { error: err.message || "Login failed" };
     }
 
-    const result = await res.json();
-    console.log("Login success:", result);
-
-    return { success: true, data: result.data };
-  } catch (error: any) {
-    console.error("Login error:", error);
+    // ✅ return redirect
+    return { success: true, redirect };
+  } catch (err) {
+    console.error("Login error:", err);
     return { error: "Something went wrong. Try again." };
   }
 };

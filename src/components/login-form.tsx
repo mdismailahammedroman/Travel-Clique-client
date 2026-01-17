@@ -1,17 +1,33 @@
 "use client";
-import { useActionState } from "react";
+
+import { useActionState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { loginAction } from "@/services/auth/loginAction";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-export default function LoginForm() {
+export default function LoginForm({ redirect }: { redirect?: string }) {
+  const router = useRouter();
   const [state, formAction, isPending] = useActionState(loginAction, null);
+
+  useEffect(() => {
+    if (state?.success && state.redirect) {
+      router.replace(state.redirect); // 🔥 redirect to user intended page
+    }
+
+    if (state?.error) {
+      toast.error(state.error);
+    }
+  }, [state, router]);
 
   return (
     <>
-      <form action={formAction} className="flex flex-col gap-4">
+      <form action={formAction}>
+        {redirect && <input type="hidden" name="redirect" value={redirect} />}
+
         <div>
           <Label htmlFor="email" className="text-white">
             Email

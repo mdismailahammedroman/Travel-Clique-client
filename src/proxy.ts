@@ -15,7 +15,13 @@ const roleBaseRouter: Record<UserInterface["role"], string[]> = {
   SUPER_ADMIN: ["/"], // access everything
   ADMIN: ["/admin", "/dashboard/*"],
   MODERATOR: ["/moderator", "/dashboard/*"],
-  USER: ["/dashboard", "/profile/*"],
+  USER: [
+    "/dashboard/*",
+    "/profile/*",
+    "/my-travel-plan",
+    "/travel-plan",
+    "/my-profile",
+  ],
 };
 
 // Public routes (no auth required)
@@ -54,6 +60,7 @@ export default async function proxy(request: NextRequest) {
   }
 
   // 1️⃣ No tokens → redirect to login
+
   if (!accessToken && !refreshToken) {
     return NextResponse.redirect(
       new URL(`/login?redirect=${encodeURIComponent(pathname)}`, request.url)
