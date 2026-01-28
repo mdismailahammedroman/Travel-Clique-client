@@ -1,0 +1,214 @@
+DSA: Zero to Advanced Modules
+Module 0: Programming Fundamentals (Pre-DSA)
+
+Variables, Data Types
+
+Loops (for, while)
+
+Conditional Statements (if-else, switch)
+
+Functions / Methods
+
+Arrays / Lists basics
+
+Input / Output
+
+Practice: Sum of numbers, Factorial, Fibonacci
+
+Module 1: Basic Data Structures
+
+Arrays / Lists
+
+Access, Insert, Delete
+
+Searching (Linear, Binary)
+
+Strings
+
+Reverse, Palindrome, Substring
+
+Linked List
+
+Singly, Doubly, Circular
+
+Insert, Delete, Traverse
+
+Stack
+
+Push, Pop, Peek
+
+Use cases: Undo feature, Expression evaluation
+
+Queue
+
+Simple Queue, Circular Queue, Deque
+
+Use cases: Task scheduling
+
+Module 2: Recursion & Backtracking
+
+Recursion Basics
+
+Base case, Recursive case
+
+Factorial, Fibonacci
+
+Backtracking
+
+N-Queens Problem
+
+Maze Solving
+
+Tail Recursion & Optimization
+
+Module 3: Searching & Sorting
+
+Searching
+
+Linear Search
+
+Binary Search
+
+Ternary Search
+
+Sorting
+
+Bubble, Selection, Insertion
+
+Merge Sort, Quick Sort, Heap Sort
+
+Counting Sort, Radix Sort
+
+Complexity Analysis (Big O, Big Theta, Big Omega)
+
+Module 4: Advanced Data Structures
+
+Trees
+
+Binary Tree, Binary Search Tree (BST)
+
+Tree Traversals: Preorder, Inorder, Postorder, Level Order
+
+AVL Tree, Red-Black Tree (Basics)
+
+Heap
+
+Max Heap, Min Heap
+
+Priority Queue Implementation
+
+Graphs
+
+Representation: Adjacency List / Matrix
+
+Traversals: BFS, DFS
+
+Shortest Path: Dijkstra, Bellman-Ford
+
+Hashing
+
+Hash Tables, Collision Handling
+
+Set & Map Implementation
+
+Module 5: Dynamic Programming (DP)
+
+Memoization & Tabulation
+
+Classic DP Problems:
+
+Fibonacci Series
+
+Knapsack Problem
+
+Coin Change Problem
+
+Longest Common Subsequence (LCS)
+
+Matrix Chain Multiplication
+
+Optimization Techniques
+
+DP on Trees & Graphs
+
+Module 6: Greedy Algorithms
+
+Interval Scheduling
+
+Minimum Spanning Tree (Kruskal, Prim)
+
+Huffman Encoding
+
+Activity Selection Problem
+
+Module 7: Graph Algorithms (Advanced)
+
+Shortest Path: Dijkstra, Bellman-Ford, Floyd-Warshall
+
+Minimum Spanning Tree: Kruskal, Prim
+
+Topological Sorting
+
+Strongly Connected Components (Kosaraju, Tarjan)
+
+Network Flow Basics (Ford-Fulkerson)
+
+Module 8: Advanced Topics
+
+Tries
+
+Segment Trees (with lazy propagation)
+
+Binary Indexed Tree (Fenwick Tree)
+
+Disjoint Set (Union-Find)
+
+Graph Coloring & Advanced Graph Problems
+
+Module 9: Competitive Programming & Problem Solving
+
+Time Complexity Optimization
+
+Space Complexity Optimization
+
+Practice Patterns:
+
+Sliding Window
+
+Two Pointers
+
+Divide & Conquer
+
+BFS/DFS patterns
+
+Online Judge Practice: LeetCode, Codeforces, HackerRank, CodeChef
+
+Module 10: Projects & Applications
+
+Mini projects using DS:
+
+To-Do List (Linked List)
+
+Calculator (Stack for Expression Evaluation)
+
+Social Network Graph
+
+Mini search engine (Hash Table)
+
+Real-world applications:
+
+Route Optimization
+
+File Compression (Huffman Coding)
+
+Game AI (Graphs & DP)
+
+💡 Tip:
+
+Modules 0–2 → Basic understanding
+
+Modules 3–5 → Core DSA
+
+Modules 6–8 → Advanced DSA & Competitive Programming
+
+Modules 9–10 → Mastery & Real-world Application
